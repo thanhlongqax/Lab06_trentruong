@@ -1,0 +1,89 @@
+<style>
+  p.item {
+    padding: 16px;
+    text-align: center;
+    border-radius: 8px;
+    color: white;
+    background-color: green;
+  }
+</style>
+
+<body class="bg-secondary">
+
+  <h3 class="text-center my-5 text-light">Đăng ký tài khoản</h3>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-5">
+        <div class="border p-3 rounded bg-light">
+          <form method="POST" action="/register">
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <div class="form-group">
+              <label for="username">Tên người dùng</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </div>
+                <input id="username" name="username" type="text" class="form-control" placeholder="Nhâp userName ở đây" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fas fa-user"></i>
+                    </span>
+                  </div>
+                  <input id="email" name="email" type="email" class="form-control" placeholder="Nhập Email ở đây" required>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="pass">Mật khẩu</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </div>
+                  <input id="pass" type="password" name="password" class="form-control" placeholder=" Nhập Password ở đây" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="pass">Xác nhận mật khẩu</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </div>
+                  <input type="password" id="confirm-password" name="confirmPassword" class="form-control" placeholder="Nhập lại Password ở đây">
+                </div>
+              </div>
+                <!-- Hiển thị flash message -->
+                {{#if error_msg}}
+                    <div class="alert alert-danger">
+                        {{error_msg}}
+                    </div>
+                {{/if}}
+
+                {{#if success_msg}}
+                    <div class="alert alert-success">
+                        {{success_msg}}
+                    </div>
+                {{/if}}
+              <div class="form-group">
+                <button class="btn btn-success px-5" type="submit">Đăng ký</button>
+              </div>
+              <div class="form-group">
+                <p>Bạn đã có tài khoản? <a href="/login">Đăng nhập ngay!</a></p>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

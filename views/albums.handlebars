@@ -1,0 +1,242 @@
+
+<body class="bg-gray-100">
+
+<header class="bg-red-600 text-white text-center py-4">
+    <h1 class="text-3xl font-bold">Album của tôi</h1>
+</header>
+
+<main class="container mx-auto p-4">
+    <section class="mb-8">
+        <!-- Modal toggle -->
+        <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+            Tạo Album mới
+        </button>
+    </section>
+
+    <!-- Danh sách các Album -->
+    <section class="mb-8">
+        <h1 class="text-2xl font-bold mb-6">Danh sách Albums</h1>
+
+        {{#if albums.length}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {{#each albums}}
+                    <!-- Container Album -->
+                    <div class="border  border-gray-300 shadow-lg rounded-xl p-4 flex flex-col items-center">
+                        <input hidden="hidden" value={{this.id}}>
+                        <!-- Tên Album -->
+                        <h2 class="text-lg font-semibold mb-2 text-center">{{this.name}}</h2>
+                        <!-- Hình ảnh (tối đa 4 ảnh) -->
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            {{#each this.photos}}
+                                {{#ifCond @index "<" 4}}
+                                    {{#if this.photo_url}}
+                                        <img src="{{this.photo_url}}" alt="Ảnh trong album" class="w-full h-24 object-cover rounded">
+                                    {{else}}
+                                        <p>Không tìm thấy ảnh</p>
+                                    {{/if}}
+                                {{/ifCond}}
+                            {{/each}}
+                        </div>
+
+                        <!-- Nút Xóa Album -->
+                        <form action="/albums/delete/{{this._id}}" method="POST" class="w-full">
+                            <button type="submit" class="bg-red-500 text-white w-full py-2 rounded hover:bg-red-700">
+                                Xóa Album
+                            </button>
+                        </form>
+                    </div>
+                {{/each}}
+            </div>
+        {{else}}
+            <p class="text-gray-500">Không tìm thấy album nào.</p>
+        {{/if}}
+
+    </section>
+</main>
+<!-- Main modal -->
+<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Tạo Album
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4">
+            <div class="mb-6">
+                <label for="helper-text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên album </label>
+                <input type="text" id="albumName" name="album_name" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tên album của bạn">
+            </div>
+            <div class="flex items-center justify-center w-full">
+                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                        </svg>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
+                    <input id="dropzone-file" type="file" class="hidden"/>
+                </label>
+            </div>
+        </div>
+            <!-- Progress bar  -->
+            <div class="w-3/4 h-auto mx-auto rounded-full dark:bg-gray-700">
+                <div id="progressBarContainer"></div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button onclick="createAlbum()" data-modal-hide="default-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Tạo Album</button>
+                <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+<script>
+    let imagerUrl = [];
+    document.addEventListener('DOMContentLoaded', () => {
+        const fInput = document.getElementById('dropzone-file');
+        const pBarContainer = document.getElementById('progressBarContainer');
+        let selectedFile = null;
+
+        // Xử lý khi người dùng chọn file
+        fInput.addEventListener('change', (event) => {
+            selectedFile = event.target.files[0];  // Chọn một file duy nhất
+            if (selectedFile) {
+                console.log('File selected:', selectedFile);
+                uploadFile(selectedFile);
+            } else {
+                alert('Please select a file.');
+            }
+        });
+
+        // Hàm upload file
+        const uploadFile = (file) => {
+            const progressBar = document.createElement('div');
+            const progressText = document.createElement('p');
+            progressBar.id = 'progressBar';
+            progressText.id = 'progressText';
+
+            progressBar.style.width = '0%';
+            progressBar.style.height = '20px';
+            progressBar.style.backgroundColor = 'rgb(29 78 216)';
+            progressBar.style.borderRadius = '10px';
+            progressText.style.display = 'block';
+            progressText.innerText = '0%';
+
+            pBarContainer.appendChild(progressBar);
+            pBarContainer.appendChild(progressText);
+
+            const reader = new FileReader();
+
+            reader.onloadstart = () => {
+                progressBar.style.width = '0%';
+                progressText.style.display = 'block';
+                progressText.innerText = '0%';
+            };
+
+            reader.onprogress = (event) => {
+                if (event.lengthComputable) {
+                    const progress = (event.loaded / event.total) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.innerText = `${Math.round(progress)}%`;
+                }
+            };
+
+            reader.onload = () => {
+                const uploadTime = 4000;
+                const interval = 50;
+                const steps = uploadTime / interval;
+                let currentStep = 0;
+
+                const updateProgress = () => {
+                    const progress = (currentStep / steps) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.innerText = `${Math.round(progress)}%`;
+                    currentStep++;
+
+                    if (currentStep <= steps) {
+                        setTimeout(updateProgress, interval);
+                    } else {
+                        progressBar.style.width = '100%';
+                        progressText.innerText = '100%';
+                        sendFileToAPI(file, progressBar, progressText);
+
+                        // Hiển thị tên file đã tải lên xong
+                        const fileName = document.createElement('p');
+                        fileName.innerText = `Thành công: ${file.name}`;
+                        pBarContainer.appendChild(fileName);
+                        fInput.value = '';
+                    }
+                };
+
+                setTimeout(updateProgress, interval);
+            };
+
+            reader.readAsDataURL(file);
+        };
+
+        // Hàm gửi file lên server
+        const sendFileToAPI = (file, progressBar, progressText) => {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        imagerUrl.push(data.url)
+                        console.log('File uploaded:', data.message);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+        };
+    });
+
+
+    function createAlbum(){
+        const albumName = document.getElementsById("albumName").value;
+        fetch('/album/create', {
+            method: 'POST',
+            body: {
+                albumBame : albumName,
+                imagsUrl : imagerUrl
+            }
+        }).then(response => response.json())
+                .then(data => {
+                    alert('File uploaded successfully');
+                    console.log('File uploaded:', data);
+                })
+                .catch(error => {
+                    alert('File uploads failed');
+                    console.error('Error:', error);
+                });
+    }
+
+    // Hàm xóa album
+    function deleteAlbum(albumId) {
+        fetch(`/albums/${albumId}/delete`, {
+            method: 'DELETE'
+        }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Refresh lại trang sau khi xóa thành công
+                    } else {
+                        alert('Xóa album thất bại');
+                    }
+                });
+    }
+</script>

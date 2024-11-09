@@ -1,0 +1,50 @@
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .error-container {
+        max-width: 600px;
+        margin: 5% auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .error-code {
+        font-size: 80px;
+        font-weight: 700;
+        color: #dc3545;
+    }
+    .error-message {
+        font-size: 24px;
+        color: #6c757d;
+    }
+    .error-stack {
+        font-size: 14px;
+        color: #adb5bd;
+        background-color: #f1f3f5;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        max-height: 200px;
+        margin-top: 15px;
+    }
+    .back-button {
+        margin-top: 20px;
+    }
+</style>
+<div class="error-container text-center">
+    <h1 class="error-code">500</h1>
+    <p class="error-message">Đã xảy ra lỗi! Xin lỗi vì sự bất tiện này.</p>
+
+    {{#if message}}
+        <p class="text-danger">{{message}}</p>
+    {{/if}}
+
+    {{#if error}}
+        <pre class="error-stack">{{error.stack}}</pre>
+    {{/if}}
+
+    <a href="/" class="btn btn-primary back-button">Quay lại Trang Chủ</a>
+</div>

@@ -1,0 +1,22 @@
+
+<!-- Header -->
+<header class="bg-red-600 text-white text-center py-4">
+    <h1 class="text-3xl font-bold">Album: {{album.album_name}}</h1>
+</header>
+
+<main class="container mx-auto p-4">
+    <!-- Nút trở về trang danh sách album -->
+    <div class="mb-8">
+        <a href="/albums" class="bg-blue-500 text-white px-4 py-2 rounded">Quay lại danh sách Album</a>
+    </div>
+
+    <!-- Hiển thị ảnh trong album -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Ảnh trong Album</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {{#each album.photos}}
+                <img src="{{this.photo_url}}" alt="Ảnh" class="w-full h-auto rounded shadow">
+            {{/each}}
+        </div>
+    </section>
+</main>
